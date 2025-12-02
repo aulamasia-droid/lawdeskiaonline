@@ -14,6 +14,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import automatixLogo from "@/assets/automatix-logo.png";
 
 const navItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -97,6 +98,29 @@ export function AppSidebar() {
           <LogOut className="w-5 h-5 shrink-0" />
           {!collapsed && <span className="truncate">Cerrar Sesión</span>}
         </button>
+      </div>
+
+      {/* Automatix IA Branding */}
+      <div className="px-3 py-4 border-t border-sidebar-border">
+        <div className="flex flex-col items-center text-center space-y-2">
+          <img 
+            src={automatixLogo} 
+            alt="Automatix IA" 
+            className={cn(
+              "transition-all duration-250",
+              collapsed ? "w-10" : "w-20"
+            )} 
+          />
+          {!collapsed && (
+            <div className="animate-fade-in space-y-0.5">
+              <p className="text-xs font-semibold text-sidebar-foreground">AUTOMATIX IA</p>
+              <p className="text-[10px] text-sidebar-foreground/60 leading-tight">
+                Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
+              </p>
+              <p className="text-[10px] text-sidebar-foreground/50">7292564174</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Collapse toggle */}
