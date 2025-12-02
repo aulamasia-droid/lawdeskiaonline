@@ -55,7 +55,7 @@ const Analisis = () => {
           {[
             "Contrato firmado el 15/03/2024 con cláusula de penalidad",
             "Incumplimiento de plazos documentado (3 meses de retraso)",
-            "Daños materiales estimados en $45,000 USD",
+            "Daños materiales estimados en $45,000 MXN",
             "Existe documentación fotográfica del estado de la obra",
             "El demandado ha reconocido parcialmente la demora",
           ].map((idea, index) => (
