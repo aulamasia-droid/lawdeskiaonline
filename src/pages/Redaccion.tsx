@@ -9,6 +9,7 @@ import { CaseDataForm, CaseData, LegalSpecialty } from "@/components/redaccion/C
 import { generateAdvancedDocument, getDocumentTypeInfo, AdvancedDocumentType } from "@/lib/legalDocumentTemplates";
 import { generateDocumentPdf } from "@/lib/generateDocumentPdf";
 import { SelloLegalDocumento } from "@/components/SelloLegalDocumento";
+import { ProfessionalLegalDisclaimer } from "@/components/legal/ProfessionalLegalDisclaimer";
 
 const documentIcons = {
   email: Mail,
@@ -258,6 +259,9 @@ const Redaccion = () => {
 
         {/* Legal Seal Preview */}
         <SelloLegalDocumento />
+
+        {/* Professional Legal Disclaimer */}
+        <ProfessionalLegalDisclaimer showSourcesMessage={false} />
 
         {/* Tip */}
         <div className="analysis-block bg-accent/5 border-accent/20">

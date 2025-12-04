@@ -11,6 +11,7 @@ import { EvidenceStatusBadge, EvidenceStatus } from "@/components/analysis/Evide
 import { AITraceabilityPanel, RelevanceLevel } from "@/components/analysis/AITraceabilityPanel";
 import { generateLegalPdf } from "@/lib/generateLegalPdf";
 import { toast } from "sonner";
+import { ProfessionalLegalDisclaimer } from "@/components/legal/ProfessionalLegalDisclaimer";
 
 // Datos de fuentes legales con trazabilidad
 const legalSources = [
@@ -656,6 +657,9 @@ const Analisis = () => {
                 </Button>
               </div>
             </div>
+
+            {/* Professional Legal Disclaimer */}
+            <ProfessionalLegalDisclaimer />
 
             {/* Actions */}
             <div className="flex items-center justify-between pt-4 border-t border-border">
