@@ -27,7 +27,6 @@ interface Jurisprudence {
   court: string;
   year: number;
   outcome: "favorable" | "desfavorable" | "parcial";
-  url: string;
 }
 
 const Sugerencias = () => {
@@ -71,7 +70,6 @@ const Sugerencias = () => {
       court: "Corte Suprema",
       year: 2023,
       outcome: "favorable",
-      url: "https://sjf.scjn.gob.mx/",
     },
     {
       id: "2",
@@ -79,7 +77,6 @@ const Sugerencias = () => {
       court: "Corte de Apelaciones",
       year: 2022,
       outcome: "favorable",
-      url: "https://sjf.scjn.gob.mx/",
     },
     {
       id: "3",
@@ -87,9 +84,13 @@ const Sugerencias = () => {
       court: "Tribunal Arbitral",
       year: 2023,
       outcome: "parcial",
-      url: "https://sjf.scjn.gob.mx/",
     },
   ];
+
+  const getJurisprudenceUrl = (title: string) => {
+    const searchQuery = encodeURIComponent(title);
+    return `https://sjf.scjn.gob.mx/sjfsem/Paginas/DetalleGeneralV2.aspx?Epoca=&Apendice=&Expresion=${searchQuery}&Dominio=Rubro,Texto&TA_TJ=&Orden=1&Clase=DetalleTesisBL`;
+  };
 
   const toggleStrategy = (id: string) => {
     setStrategies(prev => prev.map(s => 
@@ -221,7 +222,7 @@ const Sugerencias = () => {
             {jurisprudence.map((case_) => (
               <a 
                 key={case_.id} 
-                href={case_.url}
+                href={getJurisprudenceUrl(case_.title)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="analysis-block block hover:border-accent/30 border border-transparent transition-colors"
