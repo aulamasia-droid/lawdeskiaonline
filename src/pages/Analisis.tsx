@@ -1,14 +1,118 @@
 import { useState, useEffect } from "react";
-import { Scale, Brain, AlertTriangle, HelpCircle, ArrowRight, Lightbulb, FileText, Clock, TrendingUp, Gavel, DollarSign, Users } from "lucide-react";
+import { Scale, Brain, AlertTriangle, HelpCircle, ArrowRight, Lightbulb, FileText, Clock, TrendingUp, Gavel, DollarSign, Users, BookOpen, FileSearch, Download, Bot } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/utils";
+import { LegalSourceCard } from "@/components/analysis/LegalSourceCard";
+import { DocumentViewerModal } from "@/components/analysis/DocumentViewerModal";
+import { EvidenceStatusBadge, EvidenceStatus } from "@/components/analysis/EvidenceStatusBadge";
+import { AITraceabilityPanel, RelevanceLevel } from "@/components/analysis/AITraceabilityPanel";
+
+// Datos de fuentes legales con trazabilidad
+const legalSources = [
+  {
+    id: "1",
+    type: "articulo" as const,
+    title: "De los Efectos de las Obligaciones",
+    code: "Art. 2104 Código Civil Federal",
+    reference: "Libro IV, Segunda Parte, Título Primero",
+    status: "disponible" as EvidenceStatus,
+    url: "https://www.diputados.gob.mx/LeyesBiblio/pdf/2_110121.pdf",
+    aiReasoning: "Este artículo es fundamental para su caso ya que establece la obligación de cumplir con lo prometido en el contrato. La cláusula de penalidad por retraso se ampara directamente en este fundamento.",
+    relevance: "alta" as RelevanceLevel,
+    matchedKeywords: ["incumplimiento", "obligaciones", "contrato", "mora"],
+    confidence: 94,
+    excerpt: "El que estuviere obligado a prestar un hecho y dejare de prestarlo, o no lo prestare conforme a lo convenido, será responsable de los daños y perjuicios...",
+    documentContent: `<h2>Artículo 2104 - Código Civil Federal</h2>
+<p><strong>Capítulo II - De los Efectos de las Obligaciones</strong></p>
+<p>El que estuviere obligado a prestar un hecho y dejare de prestarlo, o no lo prestare conforme a lo convenido, será responsable de los daños y perjuicios en los términos siguientes:</p>
+<ul>
+<li>I. Si la obligación fuere a plazo, comenzará la responsabilidad desde el vencimiento de éste;</li>
+<li>II. Si la obligación no dependiere de plazo cierto, se observará lo dispuesto en la parte final del artículo 2080.</li>
+</ul>
+<p>El que contraviene una obligación de no hacer pagará daños y perjuicios por el solo hecho de la contravención.</p>`,
+  },
+  {
+    id: "2",
+    type: "articulo" as const,
+    title: "De los Daños y Perjuicios",
+    code: "Art. 2108-2109 Código Civil Federal",
+    reference: "Libro IV, Segunda Parte, Título Primero, Capítulo III",
+    status: "disponible" as EvidenceStatus,
+    url: "https://www.diputados.gob.mx/LeyesBiblio/pdf/2_110121.pdf",
+    aiReasoning: "Define qué se entiende por daño y perjuicio en materia civil. Esencial para cuantificar la reclamación de $45,000 MXN en daños materiales y $25,000 MXN en lucro cesante.",
+    relevance: "alta" as RelevanceLevel,
+    matchedKeywords: ["daño", "perjuicio", "pérdida", "ganancia"],
+    confidence: 91,
+    excerpt: "Se entiende por daño la pérdida o menoscabo sufrido en el patrimonio por la falta de cumplimiento de una obligación. Se reputa perjuicio la privación de cualquiera ganancia lícita...",
+  },
+  {
+    id: "3",
+    type: "jurisprudencia" as const,
+    title: "CONTRATOS CIVILES. INCUMPLIMIENTO. CARGA DE LA PRUEBA",
+    code: "Tesis: 1a./J. 45/2019",
+    reference: "Primera Sala SCJN, Décima Época",
+    status: "disponible" as EvidenceStatus,
+    url: "https://sjf.scjn.gob.mx/SJFSem/Paginas/SemanarioIndex.aspx",
+    aiReasoning: "Esta jurisprudencia establece que la carga de la prueba recae en quien alega el incumplimiento. El reconocimiento parcial del demandado fortalece su posición conforme a este criterio.",
+    relevance: "alta" as RelevanceLevel,
+    matchedKeywords: ["carga de la prueba", "incumplimiento", "contrato civil"],
+    confidence: 88,
+    excerpt: "En los contratos civiles, quien alegue el incumplimiento de las obligaciones debe probarlo, salvo que el demandado reconozca los hechos constitutivos de la acción...",
+  },
+  {
+    id: "4",
+    type: "jurisprudencia" as const,
+    title: "DAÑOS Y PERJUICIOS. CUANTIFICACIÓN EN CONTRATOS DE OBRA",
+    code: "Tesis: I.4o.C.89 C (10a.)",
+    reference: "Cuarto Tribunal Colegiado en Materia Civil, CDMX",
+    status: "parcial" as EvidenceStatus,
+    url: "https://sjf.scjn.gob.mx/SJFSem/Paginas/SemanarioIndex.aspx",
+    aiReasoning: "Criterio relevante para la cuantificación de daños en contratos de construcción. Establece parámetros para calcular el lucro cesante por retraso en entrega de obra.",
+    relevance: "media" as RelevanceLevel,
+    matchedKeywords: ["cuantificación", "obra", "retraso", "daños"],
+    confidence: 76,
+  },
+  {
+    id: "5",
+    type: "articulo" as const,
+    title: "Contrato de Obra a Precio Alzado",
+    code: "Art. 2615-2620 Código Civil Federal",
+    reference: "Libro IV, Segunda Parte, Título X",
+    status: "disponible" as EvidenceStatus,
+    url: "https://www.diputados.gob.mx/LeyesBiblio/pdf/2_110121.pdf",
+    aiReasoning: "Regula específicamente los contratos de obra como el de su caso. El Art. 2619 permite rescindir el contrato si hay vicios o defectos que hagan la obra impropia.",
+    relevance: "alta" as RelevanceLevel,
+    matchedKeywords: ["obra", "precio alzado", "rescisión", "constructor"],
+    confidence: 92,
+  },
+  {
+    id: "6",
+    type: "doctrina" as const,
+    title: "Prescripción de Acciones Civiles por Incumplimiento",
+    code: "Art. 1161 Código Civil Federal",
+    reference: "Jurisprudencia Aplicable 2020-2024",
+    status: "no-disponible" as EvidenceStatus,
+    aiReasoning: "Referencia doctrinal sobre plazos de prescripción. Importante considerar el plazo de 2 años para acciones derivadas de contratos civiles.",
+    relevance: "media" as RelevanceLevel,
+    matchedKeywords: ["prescripción", "plazo", "acción civil"],
+    confidence: 65,
+  },
+];
+
 const Analisis = () => {
   const navigate = useNavigate();
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [selectedDocument, setSelectedDocument] = useState<typeof legalSources[0] | null>(null);
+  const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
+
+  const handleViewDocument = (source: typeof legalSources[0]) => {
+    setSelectedDocument(source);
+    setIsDocumentModalOpen(true);
+  };
 
   useEffect(() => {
     if (isAnalyzing) {
@@ -439,6 +543,77 @@ const Analisis = () => {
               ))}
             </div>
 
+            {/* Fuentes Legales con Trazabilidad */}
+            <div className="space-y-6 animate-slide-up" style={{ animationDelay: "800ms" }}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <FileSearch className="w-5 h-5 text-accent" />
+                  </div>
+                  <div>
+                    <h2 className="font-serif text-xl text-foreground">Fuentes Legales con Trazabilidad</h2>
+                    <p className="text-sm text-muted-foreground">Documentos verificados con acceso directo a fuentes oficiales</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <EvidenceStatusBadge status="disponible" size="sm" />
+                  <span className="text-xs text-muted-foreground">4</span>
+                  <EvidenceStatusBadge status="parcial" size="sm" />
+                  <span className="text-xs text-muted-foreground">1</span>
+                  <EvidenceStatusBadge status="no-disponible" size="sm" />
+                  <span className="text-xs text-muted-foreground">1</span>
+                </div>
+              </div>
+
+              {/* AI Summary Panel */}
+              <div className="p-4 rounded-lg bg-accent/5 border border-accent/20">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <Bot className="w-5 h-5 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h4 className="font-medium text-sm text-foreground">🤖 Resumen de Trazabilidad IA</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      He identificado <strong className="text-accent">6 fuentes legales relevantes</strong> para su caso de incumplimiento contractual. 
+                      El <strong>Art. 2104 CCF</strong> y la tesis <strong>1a./J. 45/2019</strong> de la SCJN son las más relevantes, con 94% y 88% de confianza respectivamente. 
+                      La mayoría de los documentos están <span className="text-[hsl(var(--evidence-disponible))]">verificados y accesibles</span> desde fuentes oficiales.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Legal Source Cards Grid */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                {legalSources.map((source) => (
+                  <LegalSourceCard
+                    key={source.id}
+                    type={source.type}
+                    title={source.title}
+                    code={source.code}
+                    reference={source.reference}
+                    status={source.status}
+                    url={source.url}
+                    aiReasoning={source.aiReasoning}
+                    relevance={source.relevance}
+                    matchedKeywords={source.matchedKeywords}
+                    confidence={source.confidence}
+                    excerpt={source.excerpt}
+                    onViewDocument={source.status === "disponible" ? () => handleViewDocument(source) : undefined}
+                  />
+                ))}
+              </div>
+
+              {/* Download Report Button */}
+              <div className="flex justify-center pt-4">
+                <Button variant="outline" className="gap-2">
+                  <Download className="w-4 h-4" />
+                  Descargar informe con fuentes legales (PDF)
+                </Button>
+              </div>
+            </div>
+
             {/* Actions */}
             <div className="flex items-center justify-between pt-4 border-t border-border">
               <Button variant="ghost" onClick={() => navigate("/nuevo-caso")}>
@@ -461,6 +636,15 @@ const Analisis = () => {
             </div>
           </>
         )}
+
+        {/* Document Viewer Modal */}
+        <DocumentViewerModal
+          isOpen={isDocumentModalOpen}
+          onClose={() => setIsDocumentModalOpen(false)}
+          title={selectedDocument?.title || ""}
+          documentContent={selectedDocument?.documentContent}
+          sourceUrl={selectedDocument?.url}
+        />
       </div>
     </AppLayout>
   );

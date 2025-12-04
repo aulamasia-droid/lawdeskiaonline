@@ -44,6 +44,16 @@
     --destructive: 14 100% 60%; /* #FF5630 */
     --destructive-foreground: 0 0% 100%;
 
+    /* Evidence Status States */
+    --evidence-disponible: 145 63% 42%; /* #38A169 */
+    --evidence-parcial: 43 96% 56%; /* #ECC94B */
+    --evidence-no-disponible: 0 72% 51%; /* #E53E3E */
+    
+    /* Traceability Colors */
+    --relevance-alta: 212 100% 65%;
+    --relevance-media: 40 100% 50%;
+    --relevance-baja: 220 14% 70%;
+
     --border: 220 13% 88%;
     --input: 220 13% 88%;
     --ring: 212 100% 65%;
