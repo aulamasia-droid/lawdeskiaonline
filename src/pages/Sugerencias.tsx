@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle, BookOpen, Scale, Check, ArrowRight } from "lucide-react";
+import { CheckCircle, BookOpen, Scale, Check, ArrowRight, ExternalLink } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +27,7 @@ interface Jurisprudence {
   court: string;
   year: number;
   outcome: "favorable" | "desfavorable" | "parcial";
+  url: string;
 }
 
 const Sugerencias = () => {
@@ -70,6 +71,7 @@ const Sugerencias = () => {
       court: "Corte Suprema",
       year: 2023,
       outcome: "favorable",
+      url: "https://sjf.scjn.gob.mx/",
     },
     {
       id: "2",
@@ -77,6 +79,7 @@ const Sugerencias = () => {
       court: "Corte de Apelaciones",
       year: 2022,
       outcome: "favorable",
+      url: "https://sjf.scjn.gob.mx/",
     },
     {
       id: "3",
@@ -84,6 +87,7 @@ const Sugerencias = () => {
       court: "Tribunal Arbitral",
       year: 2023,
       outcome: "parcial",
+      url: "https://sjf.scjn.gob.mx/",
     },
   ];
 
@@ -215,10 +219,21 @@ const Sugerencias = () => {
           </h2>
           <div className="space-y-3">
             {jurisprudence.map((case_) => (
-              <div key={case_.id} className="analysis-block">
+              <a 
+                key={case_.id} 
+                href={case_.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="analysis-block block hover:border-accent/30 border border-transparent transition-colors"
+              >
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium text-foreground">{case_.title}</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-foreground hover:text-accent transition-colors">
+                        {case_.title}
+                      </p>
+                      <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       {case_.court} · {case_.year}
                     </p>
@@ -232,7 +247,7 @@ const Sugerencias = () => {
                     {case_.outcome}
                   </span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </section>
