@@ -10,6 +10,7 @@ import Sugerencias from "./pages/Sugerencias";
 import Redaccion from "./pages/Redaccion";
 import Casos from "./pages/Casos";
 import Configuracion from "./pages/Configuracion";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/" element={<Index />} />
           <Route path="/nuevo-caso" element={<NuevoCaso />} />
           <Route path="/analisis" element={<Analisis />} />
