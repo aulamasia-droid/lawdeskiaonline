@@ -165,10 +165,10 @@ const Analisis = () => {
   }, [isAnalyzing]);
 
   const analysisBlocks = [
-    // Resumen Ejecutivo - NUEVO
+    // A) Resumen Ejecutivo
     {
       icon: FileText,
-      title: "Resumen Ejecutivo del Caso",
+      title: "A) Resumen Ejecutivo del Caso",
       color: "accent",
       fullWidth: true,
       content: (
@@ -210,10 +210,10 @@ const Analisis = () => {
         </div>
       ),
     },
-    // Tipología Legal
+    // C) Tipología Legal
     {
       icon: Scale,
-      title: "Tipología Legal Detectada",
+      title: "C) Tipología Legal Detectada",
       color: "accent",
       content: (
         <div className="space-y-4">
@@ -263,10 +263,10 @@ const Analisis = () => {
         </div>
       ),
     },
-    // Cronología - NUEVO
+    // D) Cronología
     {
       icon: Clock,
-      title: "Cronología de Hechos",
+      title: "D) Cronología de Hechos",
       color: "primary",
       content: (
         <div className="space-y-3">
@@ -302,7 +302,172 @@ const Analisis = () => {
         </div>
       ),
     },
-    // Ideas Clave
+    // E) Fundamentos Jurídicos Aplicables
+    {
+      icon: BookOpen,
+      title: "E) Fundamentos Jurídicos Aplicables",
+      color: "accent",
+      content: (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground mb-4">
+            Marco normativo aplicable al caso, con citas textuales y comentarios jurídicos contextualizados.
+          </p>
+          {[
+            {
+              article: "Art. 2104 Código Civil Federal",
+              title: "Incumplimiento de obligaciones de hacer",
+              citation: "\"El que estuviere obligado a prestar un hecho y dejare de prestarlo, o no lo prestare conforme a lo convenido, será responsable de los daños y perjuicios...\"",
+              comment: "Fundamento central para la acción. El contratista tenía obligación de entregar la obra en fecha convenida (15/06/2024) y no lo hizo.",
+              applicability: "alta"
+            },
+            {
+              article: "Art. 2108-2109 CCF",
+              title: "Definición de daños y perjuicios",
+              citation: "\"Se entiende por daño la pérdida o menoscabo sufrido en el patrimonio por la falta de cumplimiento de una obligación. Se reputa perjuicio la privación de cualquiera ganancia lícita...\"",
+              comment: "Permite reclamar tanto el daño emergente ($45,000 MXN en reparaciones) como el lucro cesante ($25,000 MXN en rentas no percibidas).",
+              applicability: "alta"
+            },
+            {
+              article: "Art. 2615-2620 CCF",
+              title: "Contrato de obra a precio alzado",
+              citation: "\"Si se conviene en que la obra deba ejecutarse a satisfacción del propietario, se entiende reservada la aprobación, a falta de conformidad...\"",
+              comment: "Regula específicamente los contratos de construcción. El Art. 2619 permite rescindir si existen vicios o defectos que hagan la obra impropia para su uso.",
+              applicability: "alta"
+            },
+            {
+              article: "Art. 1910 CCF",
+              title: "Responsabilidad civil extracontractual",
+              citation: "\"El que obrando ilícitamente o contra las buenas costumbres cause daño a otro, está obligado a repararlo...\"",
+              comment: "Fundamento subsidiario para reclamar daños si se acredita ilicitud en la conducta del contratista.",
+              applicability: "media"
+            },
+            {
+              article: "Art. 1161 CCF",
+              title: "Prescripción de acciones civiles",
+              citation: "\"Se prescriben en dos años... las acciones para exigir la responsabilidad civil por injurias ya de palabra, ya por escrito, y las que tienen por objeto exigir la responsabilidad de personas que ejercen una profesión...\"",
+              comment: "⚠️ URGENTE: El plazo de prescripción de 2 años vence el 30/01/2025. Debe interponerse demanda antes de esa fecha.",
+              applicability: "alta"
+            },
+          ].map((item, index) => (
+            <div key={index} className={cn(
+              "p-4 rounded-lg border",
+              item.applicability === "alta" ? "bg-accent/5 border-accent/20" : "bg-secondary/50 border-border"
+            )}>
+              <div className="flex items-center gap-2 mb-2">
+                <span className={cn(
+                  "px-2 py-0.5 rounded text-xs font-medium",
+                  item.applicability === "alta" ? "bg-accent/20 text-accent" : "bg-secondary text-muted-foreground"
+                )}>
+                  {item.applicability === "alta" ? "Alta aplicabilidad" : "Media aplicabilidad"}
+                </span>
+              </div>
+              <p className="text-sm font-medium text-foreground mb-1">{item.article}</p>
+              <p className="text-xs text-accent mb-2">{item.title}</p>
+              <blockquote className="text-xs text-muted-foreground italic border-l-2 border-accent/30 pl-3 mb-2">
+                {item.citation}
+              </blockquote>
+              <p className="text-xs text-foreground">
+                <strong className="text-accent">Comentario jurídico:</strong> {item.comment}
+              </p>
+            </div>
+          ))}
+          <div className="p-3 rounded-lg bg-primary/5 border border-primary/20">
+            <p className="text-xs font-medium text-primary mb-2">📚 Jurisprudencia Aplicable:</p>
+            <ul className="text-xs text-muted-foreground space-y-2">
+              <li>
+                <strong className="text-foreground">Tesis 1a./J. 45/2019 SCJN:</strong> "CONTRATOS CIVILES. INCUMPLIMIENTO. CARGA DE LA PRUEBA" - 
+                Establece que quien alega el incumplimiento debe probarlo, salvo reconocimiento del demandado.
+              </li>
+              <li>
+                <strong className="text-foreground">Tesis I.4o.C.89 C (10a.):</strong> "DAÑOS Y PERJUICIOS. CUANTIFICACIÓN EN CONTRATOS DE OBRA" - 
+                Criterio para calcular daños en contratos de construcción por retraso en entrega.
+              </li>
+            </ul>
+          </div>
+        </div>
+      ),
+    },
+    // F) Argumentación Profesional
+    {
+      icon: Gavel,
+      title: "F) Argumentación Profesional",
+      color: "primary",
+      content: (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground mb-2">
+            Desarrollo argumentativo con estructura IRAC (Issue, Rule, Application, Conclusion).
+          </p>
+          
+          {/* ISSUE */}
+          <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-2 py-0.5 rounded bg-primary/20 text-primary text-xs font-bold">I - ISSUE</span>
+              <span className="text-xs text-muted-foreground">Cuestión jurídica</span>
+            </div>
+            <p className="text-sm text-foreground">
+              ¿Procede la acción de cumplimiento forzoso de contrato y el pago de daños y perjuicios contra Construcciones del Valle S.A. de C.V. 
+              derivado del incumplimiento del contrato de obra celebrado el 15/03/2024?
+            </p>
+          </div>
+
+          {/* RULE */}
+          <div className="p-4 rounded-lg bg-accent/5 border border-accent/20">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-2 py-0.5 rounded bg-accent/20 text-accent text-xs font-bold">R - RULE</span>
+              <span className="text-xs text-muted-foreground">Regla de derecho aplicable</span>
+            </div>
+            <p className="text-sm text-foreground mb-2">
+              Conforme al artículo 2104 del Código Civil Federal, quien estuviere obligado a prestar un hecho y dejare de prestarlo, 
+              o no lo prestare conforme a lo convenido, será responsable de los daños y perjuicios.
+            </p>
+            <p className="text-sm text-foreground">
+              Los artículos 2108 y 2109 del mismo ordenamiento definen el daño como la pérdida patrimonial y el perjuicio como la 
+              privación de ganancia lícita que debía obtenerse.
+            </p>
+          </div>
+
+          {/* APPLICATION */}
+          <div className="p-4 rounded-lg bg-warning/5 border border-warning/20">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-2 py-0.5 rounded bg-warning/20 text-warning text-xs font-bold">A - APPLICATION</span>
+              <span className="text-xs text-muted-foreground">Aplicación al caso concreto</span>
+            </div>
+            <div className="space-y-2 text-sm text-foreground">
+              <p>
+                <strong>1. Existencia del vínculo contractual:</strong> El contrato de fecha 15/03/2024 establece claramente las obligaciones 
+                del contratista: entregar la obra terminada a más tardar el 15/06/2024, con una cláusula de penalidad del 2% mensual por retraso.
+              </p>
+              <p>
+                <strong>2. Incumplimiento acreditado:</strong> Han transcurrido 3 meses desde la fecha de entrega pactada sin que el demandado 
+                haya cumplido con su obligación. El propio demandado reconoció la demora por escrito el 15/07/2024.
+              </p>
+              <p>
+                <strong>3. Daños y perjuicios cuantificables:</strong> Se acreditan daños materiales por $45,000 MXN (costo de terminación), 
+                penalidad contractual por $7,500 MXN, y lucro cesante por $25,000 MXN (rentas no percibidas durante el retraso).
+              </p>
+              <p>
+                <strong>4. Nexo causal:</strong> Los daños son consecuencia directa e inmediata del incumplimiento contractual del demandado.
+              </p>
+            </div>
+          </div>
+
+          {/* CONCLUSION */}
+          <div className="p-4 rounded-lg bg-success/5 border border-success/20">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-2 py-0.5 rounded bg-success/20 text-success text-xs font-bold">C - CONCLUSION</span>
+              <span className="text-xs text-muted-foreground">Conclusión jurídica</span>
+            </div>
+            <p className="text-sm text-foreground">
+              <strong>PROCEDE</strong> la acción de cumplimiento forzoso y el pago de daños y perjuicios. Los elementos de la acción 
+              se encuentran acreditados: (i) existencia del contrato, (ii) incumplimiento imputable al demandado, (iii) daños y perjuicios 
+              cuantificados, y (iv) nexo causal entre el incumplimiento y los daños. La probabilidad de éxito se estima en <strong>78%</strong> 
+              con base en precedentes judiciales similares y la solidez probatoria del caso.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    // Ideas Clave (reorganizado)
     {
       icon: Brain,
       title: "Ideas Clave del Caso",
@@ -343,7 +508,7 @@ const Analisis = () => {
         </div>
       ),
     },
-    // Partes Involucradas - NUEVO
+    // Partes Involucradas
     {
       icon: Users,
       title: "Partes Involucradas",
@@ -371,10 +536,10 @@ const Analisis = () => {
         </div>
       ),
     },
-    // Riesgos Potenciales
+    // G) Riesgos Procesales
     {
       icon: AlertTriangle,
-      title: "Riesgos Potenciales",
+      title: "G) Riesgos Procesales",
       color: "warning",
       content: (
         <div className="space-y-4">
@@ -432,10 +597,10 @@ const Analisis = () => {
         </div>
       ),
     },
-    // Cálculo de Daños - NUEVO
+    // B) Monto Reclamable / Daño Patrimonial
     {
       icon: DollarSign,
-      title: "Desglose de Reclamación",
+      title: "B) Monto Reclamable / Desglose",
       color: "accent",
       content: (
         <div className="space-y-4">
@@ -464,6 +629,104 @@ const Analisis = () => {
           <p className="text-xs text-muted-foreground">
             * Montos sujetos a prueba en juicio. El monto final dependerá de la valoración judicial.
           </p>
+        </div>
+      ),
+    },
+    // H) Recomendación Estratégica
+    {
+      icon: Lightbulb,
+      title: "H) Recomendación Estratégica",
+      color: "accent",
+      fullWidth: true,
+      content: (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">
+            Caminos jurídicos viables y acciones recomendadas con base en el análisis del expediente.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Opción Principal */}
+            <div className="p-4 rounded-lg bg-success/5 border-2 border-success/30">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="px-2 py-1 rounded bg-success/20 text-success text-xs font-bold">RECOMENDADA</span>
+              </div>
+              <h4 className="font-medium text-foreground mb-2">1. Demanda Civil Ordinaria</h4>
+              <ul className="text-sm text-muted-foreground space-y-1 mb-3">
+                <li>• <strong>Vía:</strong> Juicio Ordinario Civil</li>
+                <li>• <strong>Acción:</strong> Cumplimiento forzoso + daños y perjuicios</li>
+                <li>• <strong>Juzgado:</strong> Civil del domicilio del demandado</li>
+                <li>• <strong>Tiempo estimado:</strong> 8-14 meses</li>
+                <li>• <strong>Probabilidad de éxito:</strong> 78%</li>
+              </ul>
+              <p className="text-xs text-success">
+                ✅ Mayor monto recuperable. Medidas cautelares disponibles.
+              </p>
+            </div>
+
+            {/* Opción Alternativa 1 */}
+            <div className="p-4 rounded-lg bg-warning/5 border border-warning/20">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="px-2 py-1 rounded bg-warning/20 text-warning text-xs font-bold">ALTERNATIVA</span>
+              </div>
+              <h4 className="font-medium text-foreground mb-2">2. Mediación/Conciliación</h4>
+              <ul className="text-sm text-muted-foreground space-y-1 mb-3">
+                <li>• <strong>Vía:</strong> Centro de Mediación Privado o PROFECO</li>
+                <li>• <strong>Objetivo:</strong> Acuerdo extrajudicial vinculante</li>
+                <li>• <strong>Tiempo estimado:</strong> 1-3 meses</li>
+                <li>• <strong>Costo:</strong> Menor que litigio</li>
+              </ul>
+              <p className="text-xs text-warning">
+                ⚠️ Requiere voluntad de ambas partes. Puede interrumpir prescripción.
+              </p>
+            </div>
+          </div>
+
+          {/* Acciones Inmediatas */}
+          <div className="p-4 rounded-lg bg-destructive/5 border border-destructive/20">
+            <h4 className="font-medium text-destructive mb-3 flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4" />
+              ACCIONES INMEDIATAS (Urgentes)
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="p-3 rounded bg-background/50">
+                <p className="text-sm font-medium text-foreground mb-1">1. Requerimiento Notarial</p>
+                <p className="text-xs text-muted-foreground">
+                  Notificar formalmente al demandado exigiendo cumplimiento. Interrumpe prescripción y constituye en mora.
+                </p>
+                <p className="text-xs text-accent mt-1">Plazo: Inmediato</p>
+              </div>
+              <div className="p-3 rounded bg-background/50">
+                <p className="text-sm font-medium text-foreground mb-1">2. Asegurar Pruebas</p>
+                <p className="text-xs text-muted-foreground">
+                  Documentar estado actual de la obra con perito. Resguardar comunicaciones escritas y recibos de pago.
+                </p>
+                <p className="text-xs text-accent mt-1">Plazo: 7 días</p>
+              </div>
+              <div className="p-3 rounded bg-background/50">
+                <p className="text-sm font-medium text-foreground mb-1">3. Preparar Demanda</p>
+                <p className="text-xs text-muted-foreground">
+                  Redactar escrito de demanda con fundamentos y solicitud de embargo preventivo sobre bienes del demandado.
+                </p>
+                <p className="text-xs text-accent mt-1">Plazo: 15 días</p>
+              </div>
+              <div className="p-3 rounded bg-background/50">
+                <p className="text-sm font-medium text-foreground mb-1">4. Presentar antes de prescripción</p>
+                <p className="text-xs text-muted-foreground">
+                  La demanda debe presentarse antes del 30/01/2025 para evitar la prescripción de la acción.
+                </p>
+                <p className="text-xs text-destructive mt-1 font-medium">⏰ Quedan 45 días</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Advertencia Legal */}
+          <div className="p-3 rounded-lg bg-secondary/50 border border-border">
+            <p className="text-xs text-muted-foreground italic">
+              <strong className="text-foreground">Nota:</strong> Las recomendaciones estratégicas se basan en el análisis del expediente proporcionado 
+              y en precedentes judiciales similares. El resultado final dependerá de factores procesales, la valoración de pruebas 
+              por el juzgador y la conducta procesal de las partes. Se recomienda validar la estrategia con un abogado litigante certificado.
+            </p>
+          </div>
         </div>
       ),
     },
