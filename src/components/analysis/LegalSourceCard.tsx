@@ -2,6 +2,7 @@ import { FileText, ExternalLink, Eye, Scale, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EvidenceStatusBadge, EvidenceStatus } from "./EvidenceStatusBadge";
 import { AITraceabilityPanel, RelevanceLevel } from "./AITraceabilityPanel";
+import { LegalSourcePreviewTooltip } from "./LegalSourcePreviewTooltip";
 import { cn } from "@/lib/utils";
 
 interface LegalSourceCardProps {
@@ -16,6 +17,7 @@ interface LegalSourceCardProps {
   matchedKeywords?: string[];
   confidence?: number;
   excerpt?: string;
+  documentContent?: string;
   onViewDocument?: () => void;
 }
 
@@ -49,6 +51,7 @@ export const LegalSourceCard = ({
   matchedKeywords,
   confidence,
   excerpt,
+  documentContent,
   onViewDocument,
 }: LegalSourceCardProps) => {
   const config = typeConfig[type];
@@ -56,7 +59,7 @@ export const LegalSourceCard = ({
 
   return (
     <div className="legal-card space-y-4">
-      {/* Header */}
+      {/* Header with Hover Preview */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <div className={cn(
@@ -79,7 +82,23 @@ export const LegalSourceCard = ({
               </span>
               <EvidenceStatusBadge status={status} size="sm" />
             </div>
-            <h3 className="font-serif text-lg text-foreground">{title}</h3>
+            {/* Title with Hover Preview Tooltip */}
+            <LegalSourcePreviewTooltip
+              type={type}
+              title={title}
+              code={code}
+              excerpt={excerpt}
+              fullContent={documentContent}
+              confidence={confidence}
+              status={status}
+              url={url}
+              onExpandClick={onViewDocument}
+              side="right"
+            >
+              <h3 className="font-serif text-lg text-foreground cursor-pointer hover:text-accent transition-colors underline decoration-dotted decoration-muted-foreground/50 underline-offset-4">
+                {title}
+              </h3>
+            </LegalSourcePreviewTooltip>
             {code && (
               <p className="text-sm text-accent font-medium mt-0.5">{code}</p>
             )}

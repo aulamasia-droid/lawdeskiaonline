@@ -19,6 +19,7 @@ interface PdfData {
   legalSources: LegalSource[];
   confidencePercentage: number;
   caseTitle?: string;
+  caseSummary?: string;
 }
 
 export async function generateLegalPdf(data: PdfData): Promise<void> {
@@ -48,7 +49,6 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
 
   // ============ HEADER ============
   try {
-    // Load logo as base64
     const logoImg = new Image();
     logoImg.crossOrigin = 'anonymous';
     
@@ -111,12 +111,29 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(80, 80, 80);
     doc.text(`Caso: ${data.caseTitle}`, margin, yPos);
+    yPos += 10;
+  }
+
+  // ============ SECTION 1: CASE SUMMARY ============
+  if (data.caseSummary) {
+    checkNewPage(40);
+    doc.setFillColor(249, 250, 251);
+    doc.roundedRect(margin, yPos, contentWidth, 8, 2, 2, 'F');
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(29, 53, 87);
+    doc.text('📄 Resumen del Caso', margin + 4, yPos + 5.5);
+    yPos += 12;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(60, 60, 60);
+    yPos = addWrappedText(data.caseSummary, margin, yPos, contentWidth);
     yPos += 8;
   }
 
-  yPos += 5;
-
-  // ============ AI ANALYSIS SECTION ============
+  // ============ SECTION 2: AI ANALYSIS ============
+  checkNewPage(40);
   doc.setFillColor(249, 250, 251);
   doc.roundedRect(margin, yPos, contentWidth, 8, 2, 2, 'F');
   doc.setFontSize(11);
@@ -131,42 +148,19 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   yPos = addWrappedText(data.aiSummary, margin, yPos, contentWidth);
   yPos += 8;
 
-  // ============ TRACEABILITY PANEL ============
-  checkNewPage(40);
-  doc.setFillColor(249, 250, 251);
-  doc.roundedRect(margin, yPos, contentWidth, 8, 2, 2, 'F');
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(29, 53, 87);
-  doc.text('🔍 ¿Por qué estas fuentes?', margin + 4, yPos + 5.5);
-  yPos += 12;
-
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(60, 60, 60);
-  yPos = addWrappedText(data.traceabilityText, margin, yPos, contentWidth);
-  
-  // Confidence indicator
-  yPos += 4;
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(42, 157, 143); // #2A9D8F
-  doc.text(`Confianza general: ${data.confidencePercentage}%`, margin, yPos);
-  yPos += 10;
-
-  // ============ LEGAL SOURCES SECTION ============
+  // ============ SECTION 3: LEGAL SOURCES ============
   checkNewPage(20);
   doc.setFillColor(249, 250, 251);
   doc.roundedRect(margin, yPos, contentWidth, 8, 2, 2, 'F');
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(29, 53, 87);
-  doc.text('📚 Fuentes legales aplicadas', margin + 4, yPos + 5.5);
+  doc.text('🔍 Fuentes Legales Aplicadas', margin + 4, yPos + 5.5);
   yPos += 14;
 
-  // Legal sources list
+  // Legal sources list with confidence
   for (const source of data.legalSources) {
-    checkNewPage(35);
+    checkNewPage(45);
 
     // Status indicator
     let statusColor: [number, number, number];
@@ -174,15 +168,15 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
     switch (source.status) {
       case 'disponible':
         statusColor = [56, 161, 105]; // #38A169
-        statusText = '🟢';
+        statusText = '🟢 Disponible';
         break;
       case 'parcial':
         statusColor = [236, 201, 75]; // #ECC94B
-        statusText = '🟡';
+        statusText = '🟡 Parcial';
         break;
       default:
         statusColor = [229, 62, 62]; // #E53E3E
-        statusText = '🔴';
+        statusText = '🔴 No disponible';
     }
 
     // Source type badge
@@ -195,54 +189,81 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
     // Source box
     doc.setDrawColor(200, 200, 200);
     doc.setLineWidth(0.3);
-    doc.roundedRect(margin, yPos, contentWidth, 28, 2, 2, 'S');
+    doc.roundedRect(margin, yPos, contentWidth, 38, 2, 2, 'S');
 
     // Type and status
     doc.setFontSize(8);
     doc.setTextColor(...statusColor);
-    doc.text(`${statusText} ${typeLabels[source.type]}`, margin + 3, yPos + 5);
+    doc.text(`${typeLabels[source.type]} | ${statusText}`, margin + 3, yPos + 5);
 
-    // Relevance badge
+    // Relevance and confidence badge
     const relevanceColors: Record<string, [number, number, number]> = {
       alta: [42, 157, 143],
       media: [236, 201, 75],
       baja: [160, 160, 160]
     };
     doc.setTextColor(...relevanceColors[source.relevance]);
-    doc.text(`[${source.relevance.toUpperCase()}]`, pageWidth - margin - 20, yPos + 5);
+    doc.text(`[${source.relevance.toUpperCase()}] ${source.confidence}%`, pageWidth - margin - 25, yPos + 5);
 
     // Title and code
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(29, 53, 87);
     const titleLines = doc.splitTextToSize(source.title, contentWidth - 10);
-    doc.text(titleLines[0], margin + 3, yPos + 11);
+    doc.text(titleLines[0], margin + 3, yPos + 12);
 
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(80, 80, 80);
-    doc.text(source.code, margin + 3, yPos + 17);
+    doc.text(source.code, margin + 3, yPos + 18);
 
-    // URL if available
-    if (source.url) {
-      doc.setFontSize(8);
-      doc.setTextColor(42, 157, 143);
-      const truncatedUrl = source.url.length > 60 ? source.url.substring(0, 57) + '...' : source.url;
-      doc.textWithLink(truncatedUrl, margin + 3, yPos + 23, { url: source.url });
-    }
-
-    // Confidence
+    // AI Reasoning (truncated)
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    doc.text(`${source.confidence}%`, pageWidth - margin - 8, yPos + 23);
+    const reasoningText = source.aiReasoning.length > 120 
+      ? source.aiReasoning.substring(0, 117) + '...' 
+      : source.aiReasoning;
+    const reasoningLines = doc.splitTextToSize(reasoningText, contentWidth - 10);
+    doc.text(reasoningLines, margin + 3, yPos + 25);
 
-    yPos += 32;
+    // URL if available (clickable link)
+    if (source.url) {
+      doc.setFontSize(7);
+      doc.setTextColor(42, 157, 143);
+      const truncatedUrl = source.url.length > 60 ? source.url.substring(0, 57) + '...' : source.url;
+      doc.textWithLink(`🔗 ${truncatedUrl}`, margin + 3, yPos + 35, { url: source.url });
+    }
+
+    yPos += 42;
   }
+
+  // ============ SECTION 4: TRACEABILITY PANEL ============
+  checkNewPage(50);
+  yPos += 4;
+  doc.setFillColor(249, 250, 251);
+  doc.roundedRect(margin, yPos, contentWidth, 8, 2, 2, 'F');
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(29, 53, 87);
+  doc.text('📎 Panel de Trazabilidad', margin + 4, yPos + 5.5);
+  yPos += 12;
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(60, 60, 60);
+  yPos = addWrappedText(data.traceabilityText, margin, yPos, contentWidth);
+  
+  // Confidence indicator
+  yPos += 4;
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(42, 157, 143); // #2A9D8F
+  doc.text(`✓ Confianza general del análisis: ${data.confidencePercentage}%`, margin, yPos);
+  yPos += 10;
 
   // ============ FOOTER / LEGAL SEAL ============
   const footerHeight = 55;
   
-  // Check if we need a new page for footer
   if (yPos + footerHeight > pageHeight - 20) {
     doc.addPage();
     yPos = margin;
@@ -264,7 +285,7 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(29, 53, 87);
-  doc.text('🔖 Sello Legal de Validez', margin + 4, yPos + 7);
+  doc.text('✅ Sello Legal de Validez', margin + 4, yPos + 7);
 
   // Seal text
   doc.setFontSize(8);
@@ -288,6 +309,20 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   doc.setTextColor(100, 100, 100);
   doc.text('AUTOMATIX IA | Tel: 7292564174', margin + 4, yPos + 42);
   doc.text('Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial', pageWidth - margin - 4, yPos + 42, { align: 'right' });
+
+  // Page footer text
+  const totalPages = doc.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    doc.setFontSize(7);
+    doc.setTextColor(150, 150, 150);
+    doc.text(
+      `Informe generado automáticamente con respaldo jurídico y trazabilidad en fuentes oficiales. | Página ${i} de ${totalPages}`,
+      pageWidth / 2,
+      pageHeight - 8,
+      { align: 'center' }
+    );
+  }
 
   // Download
   doc.save('Informe_Legal_LawDesk.pdf');
