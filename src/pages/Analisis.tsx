@@ -1,17 +1,24 @@
 import { useState, useEffect } from "react";
-import { Scale, Brain, AlertTriangle, HelpCircle, ArrowRight, Lightbulb, FileText, Clock, TrendingUp, Gavel, DollarSign, Users, BookOpen, FileSearch, Download, Bot, Loader2 } from "lucide-react";
+import { Scale, Brain, AlertTriangle, HelpCircle, ArrowRight, Lightbulb, FileText, Clock, TrendingUp, Gavel, DollarSign, Users, BookOpen, FileSearch, Download, Bot, Loader2, Sparkles } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/utils";
 import { LegalSourceCard } from "@/components/analysis/LegalSourceCard";
 import { DocumentViewerModal } from "@/components/analysis/DocumentViewerModal";
 import { EvidenceStatusBadge, EvidenceStatus } from "@/components/analysis/EvidenceStatusBadge";
 import { AITraceabilityPanel, RelevanceLevel } from "@/components/analysis/AITraceabilityPanel";
+import { AIAnalysisRenderer } from "@/components/analysis/AIAnalysisRenderer";
 import { generateLegalPdf } from "@/lib/generateLegalPdf";
 import { toast } from "sonner";
 import { ProfessionalLegalDisclaimer } from "@/components/legal/ProfessionalLegalDisclaimer";
+
+interface LocationState {
+  aiAnalysis?: string;
+  fileName?: string;
+  specialty?: string;
+}
 
 // Datos de fuentes legales con trazabilidad
 const legalSources = [
@@ -107,11 +114,19 @@ const legalSources = [
 
 const Analisis = () => {
   const navigate = useNavigate();
-  const [isAnalyzing, setIsAnalyzing] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const location = useLocation();
+  const locationState = location.state as LocationState | null;
+  
+  const [isAnalyzing, setIsAnalyzing] = useState(!locationState?.aiAnalysis);
+  const [progress, setProgress] = useState(locationState?.aiAnalysis ? 100 : 0);
   const [selectedDocument, setSelectedDocument] = useState<typeof legalSources[0] | null>(null);
   const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  
+  // AI Analysis from navigation
+  const aiAnalysisContent = locationState?.aiAnalysis;
+  const sourceFileName = locationState?.fileName;
+  const specialty = locationState?.specialty;
 
   const handleViewDocument = (source: typeof legalSources[0]) => {
     setSelectedDocument(source);
@@ -149,7 +164,7 @@ const Analisis = () => {
   };
 
   useEffect(() => {
-    if (isAnalyzing) {
+    if (isAnalyzing && !aiAnalysisContent) {
       const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
@@ -162,7 +177,7 @@ const Analisis = () => {
       }, 50);
       return () => clearInterval(interval);
     }
-  }, [isAnalyzing]);
+  }, [isAnalyzing, aiAnalysisContent]);
 
   const analysisBlocks = [
     // A) Resumen Ejecutivo
