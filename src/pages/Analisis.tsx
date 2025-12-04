@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Scale, Brain, AlertTriangle, HelpCircle, ArrowRight, Lightbulb, FileText, Clock, TrendingUp, Gavel, DollarSign, Users, BookOpen, FileSearch, Download, Bot } from "lucide-react";
+import { Scale, Brain, AlertTriangle, HelpCircle, ArrowRight, Lightbulb, FileText, Clock, TrendingUp, Gavel, DollarSign, Users, BookOpen, FileSearch, Download, Bot, Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,8 @@ import { LegalSourceCard } from "@/components/analysis/LegalSourceCard";
 import { DocumentViewerModal } from "@/components/analysis/DocumentViewerModal";
 import { EvidenceStatusBadge, EvidenceStatus } from "@/components/analysis/EvidenceStatusBadge";
 import { AITraceabilityPanel, RelevanceLevel } from "@/components/analysis/AITraceabilityPanel";
+import { generateLegalPdf } from "@/lib/generateLegalPdf";
+import { toast } from "sonner";
 
 // Datos de fuentes legales con trazabilidad
 const legalSources = [
@@ -108,10 +110,40 @@ const Analisis = () => {
   const [progress, setProgress] = useState(0);
   const [selectedDocument, setSelectedDocument] = useState<typeof legalSources[0] | null>(null);
   const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   const handleViewDocument = (source: typeof legalSources[0]) => {
     setSelectedDocument(source);
     setIsDocumentModalOpen(true);
+  };
+
+  const handleDownloadPdf = async () => {
+    setIsGeneratingPdf(true);
+    try {
+      await generateLegalPdf({
+        caseTitle: "Incumplimiento de Contrato de Obra - María González vs Construcciones del Valle",
+        aiSummary: "Caso de incumplimiento contractual con alta viabilidad jurídica (78%). El cliente contrató servicios de construcción que no fueron entregados en tiempo y forma. Existe documentación sólida que respalda la reclamación, incluyendo el contrato original, evidencia del retraso y reconocimiento parcial del demandado. Se recomienda iniciar acción legal antes del vencimiento de prescripción. Monto total reclamable: $127,500 MXN incluyendo daños materiales, penalidades contractuales, lucro cesante y gastos periciales.",
+        traceabilityText: "He identificado 6 fuentes legales relevantes para su caso de incumplimiento contractual. El Art. 2104 CCF establece la responsabilidad por incumplimiento de obligaciones, mientras que los Arts. 2108-2109 CCF definen daños y perjuicios. La tesis 1a./J. 45/2019 de la SCJN establece criterios sobre carga de la prueba en contratos civiles. Los Arts. 2615-2620 CCF regulan específicamente los contratos de obra a precio alzado aplicables a este caso.",
+        confidencePercentage: 87,
+        legalSources: legalSources.map(source => ({
+          type: source.type,
+          title: source.title,
+          code: source.code,
+          reference: source.reference,
+          status: source.status,
+          url: source.url,
+          aiReasoning: source.aiReasoning,
+          relevance: source.relevance,
+          confidence: source.confidence,
+        })),
+      });
+      toast.success("✅ Informe descargado exitosamente.");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("❌ Hubo un error al generar el informe. Verifica tu conexión o vuelve a intentarlo.");
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   useEffect(() => {
@@ -607,9 +639,18 @@ const Analisis = () => {
 
               {/* Download Report Button */}
               <div className="flex justify-center pt-4">
-                <Button variant="outline" className="gap-2">
-                  <Download className="w-4 h-4" />
-                  Descargar informe con fuentes legales (PDF)
+                <Button 
+                  variant="outline" 
+                  className="gap-2"
+                  onClick={handleDownloadPdf}
+                  disabled={isGeneratingPdf}
+                >
+                  {isGeneratingPdf ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4" />
+                  )}
+                  {isGeneratingPdf ? "Generando informe..." : "Descargar informe con fuentes legales (PDF)"}
                 </Button>
               </div>
             </div>
