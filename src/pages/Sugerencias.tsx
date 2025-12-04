@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import { ProfessionalLegalDisclaimer } from "@/components/legal/ProfessionalLegalDisclaimer";
 
 interface Strategy {
   id: string;
@@ -252,6 +253,9 @@ const Sugerencias = () => {
             ))}
           </div>
         </section>
+
+        {/* Professional Legal Disclaimer */}
+        <ProfessionalLegalDisclaimer />
 
         {/* Actions */}
         <div className="flex items-center justify-between pt-4 border-t border-border">
