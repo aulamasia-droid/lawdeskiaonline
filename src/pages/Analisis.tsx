@@ -32,17 +32,39 @@ const Analisis = () => {
       title: "Tipología Legal Detectada",
       color: "accent",
       content: (
-        <div className="space-y-3">
-          <div className="legal-badge bg-accent/10 text-accent">
-            Derecho Civil
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            <div className="legal-badge bg-accent/10 text-accent">
+              Derecho Civil
+            </div>
+            <div className="legal-badge bg-primary/10 text-primary">
+              Contratos
+            </div>
           </div>
-          <p className="text-sm text-foreground">
-            <strong>Subtipo:</strong> Incumplimiento de Contrato de Obra
-          </p>
+          <div className="space-y-2">
+            <p className="text-sm text-foreground">
+              <strong>Subtipo:</strong> Incumplimiento de Contrato de Obra
+            </p>
+            <p className="text-sm text-foreground">
+              <strong>Materia específica:</strong> Obligaciones contractuales y responsabilidad civil
+            </p>
+          </div>
           <p className="text-sm text-muted-foreground">
             El caso presenta elementos típicos de una disputa contractual en el ámbito de la construcción, 
-            con posibles implicaciones en daños y perjuicios.
+            con posibles implicaciones en daños y perjuicios por incumplimiento de obligaciones de hacer.
           </p>
+          <div className="p-3 rounded-lg bg-secondary/50 space-y-2">
+            <p className="text-xs font-medium text-accent">Fundamento Legal Aplicable:</p>
+            <ul className="text-xs text-muted-foreground space-y-1">
+              <li>• Art. 1824-1848 Código Civil Federal (Efectos de las Obligaciones)</li>
+              <li>• Art. 2615-2620 CCF (Contrato de Obra a Precio Alzado)</li>
+              <li>• Art. 1910 CCF (Responsabilidad Civil)</li>
+            </ul>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+            <span>Alta compatibilidad con precedentes favorables</span>
+          </div>
         </div>
       ),
     },
@@ -51,20 +73,35 @@ const Analisis = () => {
       title: "Ideas Clave del Caso",
       color: "primary",
       content: (
-        <ul className="space-y-2">
-          {[
-            "Contrato firmado el 15/03/2024 con cláusula de penalidad",
-            "Incumplimiento de plazos documentado (3 meses de retraso)",
-            "Daños materiales estimados en $45,000 MXN",
-            "Existe documentación fotográfica del estado de la obra",
-            "El demandado ha reconocido parcialmente la demora",
-          ].map((idea, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
-              <span className="text-foreground">{idea}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="space-y-4">
+          <ul className="space-y-2">
+            {[
+              { text: "Contrato firmado el 15/03/2024 con cláusula de penalidad por retraso", importance: "alta" },
+              { text: "Incumplimiento de plazos documentado (3 meses de retraso)", importance: "alta" },
+              { text: "Daños materiales estimados en $45,000 MXN", importance: "alta" },
+              { text: "Existe documentación fotográfica del estado de la obra", importance: "media" },
+              { text: "El demandado ha reconocido parcialmente la demora por escrito", importance: "alta" },
+              { text: "Pagos realizados: 60% del monto total convenido", importance: "media" },
+              { text: "No existe cláusula de fuerza mayor invocable", importance: "media" },
+            ].map((idea, index) => (
+              <li key={index} className="flex items-start gap-2 text-sm">
+                <span className={cn(
+                  "w-2 h-2 rounded-full mt-2 shrink-0",
+                  idea.importance === "alta" ? "bg-accent" : "bg-muted-foreground"
+                )} />
+                <span className="text-foreground">{idea.text}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="p-3 rounded-lg bg-accent/5 border border-accent/20">
+            <p className="text-xs font-medium text-accent mb-2">Análisis de Lexi:</p>
+            <p className="text-xs text-muted-foreground">
+              El reconocimiento parcial de la demora por parte del demandado fortalece significativamente 
+              la posición del cliente. Combinado con la cláusula de penalidad contractual, existe una 
+              base sólida para reclamar daños y perjuicios conforme al Art. 2104 del CCF.
+            </p>
+          </div>
+        </div>
       ),
     },
     {
@@ -72,31 +109,46 @@ const Analisis = () => {
       title: "Riesgos Potenciales",
       color: "warning",
       content: (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {[
             {
               level: "Alto",
-              text: "Prescripción próxima - Quedan 45 días para presentar demanda",
+              text: "Prescripción próxima",
+              detail: "Quedan 45 días para presentar demanda según Art. 1161 CCF (prescripción de 2 años para acciones derivadas de contratos)",
               className: "text-destructive",
+              bgClass: "bg-destructive/10",
             },
             {
               level: "Medio",
-              text: "Cláusula de arbitraje podría limitar opciones judiciales",
+              text: "Cláusula de arbitraje",
+              detail: "El contrato incluye cláusula compromisoria que podría limitar la vía judicial. Revisar si cumple requisitos del Art. 1416 del Código de Comercio",
               className: "text-warning",
+              bgClass: "bg-warning/10",
             },
             {
               level: "Bajo",
-              text: "Posible reconvención por supuestos cambios en especificaciones",
+              text: "Posible reconvención",
+              detail: "El demandado podría alegar cambios en especificaciones no documentados. Recopilar todas las comunicaciones previas",
               className: "text-muted-foreground",
+              bgClass: "bg-secondary",
             },
           ].map((risk, index) => (
-            <div key={index} className="flex items-start gap-3">
-              <span className={cn("text-xs font-medium", risk.className)}>
-                [{risk.level}]
-              </span>
-              <p className="text-sm text-foreground">{risk.text}</p>
+            <div key={index} className={cn("p-3 rounded-lg", risk.bgClass)}>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={cn("text-xs font-bold", risk.className)}>
+                  [{risk.level}]
+                </span>
+                <p className="text-sm font-medium text-foreground">{risk.text}</p>
+              </div>
+              <p className="text-xs text-muted-foreground">{risk.detail}</p>
             </div>
           ))}
+          <div className="p-3 rounded-lg bg-warning/5 border border-warning/20">
+            <p className="text-xs font-medium text-warning mb-1">⚠️ Acción recomendada urgente:</p>
+            <p className="text-xs text-muted-foreground">
+              Iniciar procedimiento de mediación o presentar demanda antes del vencimiento del plazo de prescripción.
+            </p>
+          </div>
         </div>
       ),
     },
@@ -107,17 +159,23 @@ const Analisis = () => {
       content: (
         <div className="space-y-3">
           {[
-            "¿El cliente realizó pagos parciales durante el período de incumplimiento?",
-            "¿Existe comunicación escrita donde se solicite extensión de plazos?",
-            "¿Se ha intentado una mediación previa con la contraparte?",
-            "¿El contrato especifica el foro competente para disputas?",
-          ].map((question, index) => (
+            { question: "¿El cliente realizó pagos parciales durante el período de incumplimiento?", reason: "Determina si hubo aceptación tácita del retraso" },
+            { question: "¿Existe comunicación escrita donde se solicite extensión de plazos?", reason: "Puede evidenciar mala fe o dolo" },
+            { question: "¿Se ha intentado una mediación previa con la contraparte?", reason: "Requisito de procedibilidad en algunos estados" },
+            { question: "¿El contrato especifica el foro competente para disputas?", reason: "Define la jurisdicción aplicable" },
+            { question: "¿Se notificó formalmente el incumplimiento al contratista?", reason: "Necesario para constituir en mora según Art. 2104 CCF" },
+          ].map((item, index) => (
             <div 
               key={index} 
-              className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors cursor-pointer"
+              className="p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors cursor-pointer space-y-1"
             >
-              <span className="text-accent font-medium">Q{index + 1}.</span>
-              <p className="text-sm text-foreground">{question}</p>
+              <div className="flex items-start gap-2">
+                <span className="text-accent font-medium text-sm">Q{index + 1}.</span>
+                <p className="text-sm text-foreground">{item.question}</p>
+              </div>
+              <p className="text-xs text-muted-foreground pl-6">
+                <span className="text-accent/70">Relevancia:</span> {item.reason}
+              </p>
             </div>
           ))}
         </div>
