@@ -122,8 +122,9 @@ const Analisis = () => {
     try {
       await generateLegalPdf({
         caseTitle: "Incumplimiento de Contrato de Obra - María González vs Construcciones del Valle",
+        caseSummary: "Cliente (acreedor) contrató servicios de construcción por $125,000 MXN con fecha de entrega 15/06/2024. A la fecha existe un retraso de 3 meses con obra inconclusa. Pagos realizados: 60% ($75,000 MXN). El contratista ha reconocido parcialmente la demora por escrito. Existe documentación fotográfica del estado actual y testigos disponibles. Prescripción aplicable: 2 años desde el incumplimiento (Art. 1161 CCF).",
         aiSummary: "Caso de incumplimiento contractual con alta viabilidad jurídica (78%). El cliente contrató servicios de construcción que no fueron entregados en tiempo y forma. Existe documentación sólida que respalda la reclamación, incluyendo el contrato original, evidencia del retraso y reconocimiento parcial del demandado. Se recomienda iniciar acción legal antes del vencimiento de prescripción. Monto total reclamable: $127,500 MXN incluyendo daños materiales, penalidades contractuales, lucro cesante y gastos periciales.",
-        traceabilityText: "He identificado 6 fuentes legales relevantes para su caso de incumplimiento contractual. El Art. 2104 CCF establece la responsabilidad por incumplimiento de obligaciones, mientras que los Arts. 2108-2109 CCF definen daños y perjuicios. La tesis 1a./J. 45/2019 de la SCJN establece criterios sobre carga de la prueba en contratos civiles. Los Arts. 2615-2620 CCF regulan específicamente los contratos de obra a precio alzado aplicables a este caso.",
+        traceabilityText: "He identificado 6 fuentes legales relevantes para su caso de incumplimiento contractual. El Art. 2104 CCF establece la responsabilidad por incumplimiento de obligaciones, mientras que los Arts. 2108-2109 CCF definen daños y perjuicios. La tesis 1a./J. 45/2019 de la SCJN establece criterios sobre carga de la prueba en contratos civiles. Los Arts. 2615-2620 CCF regulan específicamente los contratos de obra a precio alzado aplicables a este caso. La selección de fuentes se basó en coincidencia de palabras clave como 'incumplimiento', 'contrato de obra', 'daños y perjuicios' y análisis de precedentes similares en jurisdicciones civiles de México.",
         confidencePercentage: 87,
         legalSources: legalSources.map(source => ({
           type: source.type,
@@ -140,7 +141,7 @@ const Analisis = () => {
       toast.success("✅ Informe descargado exitosamente.");
     } catch (error) {
       console.error("Error generating PDF:", error);
-      toast.error("❌ Hubo un error al generar el informe. Verifica tu conexión o vuelve a intentarlo.");
+      toast.error("❌ Hubo un error al generar el informe. Intenta nuevamente.");
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -632,6 +633,7 @@ const Analisis = () => {
                     matchedKeywords={source.matchedKeywords}
                     confidence={source.confidence}
                     excerpt={source.excerpt}
+                    documentContent={source.documentContent}
                     onViewDocument={source.status === "disponible" ? () => handleViewDocument(source) : undefined}
                   />
                 ))}
