@@ -59,6 +59,16 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        evidence: {
+          disponible: "hsl(var(--evidence-disponible))",
+          parcial: "hsl(var(--evidence-parcial))",
+          "no-disponible": "hsl(var(--evidence-no-disponible))",
+        },
+        relevance: {
+          alta: "hsl(var(--relevance-alta))",
+          media: "hsl(var(--relevance-media))",
+          baja: "hsl(var(--relevance-baja))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
