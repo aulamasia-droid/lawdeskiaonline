@@ -100,12 +100,12 @@ export function AppSidebar() {
         </button>
       </div>
 
-      {/* Automatix IA Branding */}
+      {/* ARQENTA Branding */}
       <div className="px-3 py-4 border-t border-sidebar-border">
         <div className="flex flex-col items-center text-center space-y-2">
           <img 
-            src={automatixLogo} 
-            alt="Automatix IA" 
+            src={arqentaLogo} 
+            alt="ARQENTA" 
             className={cn(
               "transition-all duration-250",
               collapsed ? "w-10" : "w-20"
@@ -113,11 +113,10 @@ export function AppSidebar() {
           />
           {!collapsed && (
             <div className="animate-fade-in space-y-0.5">
-              <p className="text-xs font-semibold text-sidebar-foreground">AUTOMATIX IA</p>
+              <p className="text-xs font-semibold text-sidebar-foreground">ARQENTA</p>
               <p className="text-[10px] text-sidebar-foreground/60 leading-tight">
-                Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
+                Arquitectura Digital e IA Aplicada
               </p>
-              <p className="text-[10px] text-sidebar-foreground/50">7292564174</p>
             </div>
           )}
         </div>
