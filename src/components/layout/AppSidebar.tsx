@@ -14,7 +14,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import automatixLogo from "@/assets/automatix-logo.png";
+import arqentaLogo from "@/assets/arqenta-logo.png";
 
 const navItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
