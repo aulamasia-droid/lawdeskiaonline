@@ -6,7 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { MessageCircle, BookOpen, ArrowRight, Check } from "lucide-react";
-import automatixLogo from "@/assets/automatix-logo.png";
+import arqentaLogo from "@/assets/arqenta-logo.png";
 
 const especialidades = [
   { emoji: "🔥", nombre: "Derecho Civil", descripcion: "Contratos, arrendamientos, daños, responsabilidad civil." },
