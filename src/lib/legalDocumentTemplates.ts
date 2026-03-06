@@ -621,9 +621,8 @@ INFORME JURÍDICO
 CONFIDENCIAL
 ═══════════════════════════════════════════════════════════════
 
-AUTOMATIX IA
-Diseño y Desarrollo de Productos y Servicios con IA
-Tel: 7292564174
+ARQENTA
+Arquitectura Digital e IA Aplicada
 
 ───────────────────────────────────────────────────────────────
 DATOS GENERALES
