@@ -1,4 +1,4 @@
-import automatixLogo from "@/assets/automatix-logo.png";
+import arqentaLogo from "@/assets/arqenta-logo.png";
 
 const fuentesAplicables = [
   "Código Civil Federal y códigos locales",
