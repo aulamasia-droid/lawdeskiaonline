@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import automatixLogo from '@/assets/automatix-logo.png';
+import arqentaLogo from '@/assets/arqenta-logo.png';
 
 interface LegalSource {
   type: 'articulo' | 'jurisprudencia' | 'doctrina';
@@ -64,7 +64,7 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
         resolve();
       };
       logoImg.onerror = () => resolve();
-      logoImg.src = automatixLogo;
+      logoImg.src = arqentaLogo;
     });
   } catch {
     // Logo failed to load, continue without it
@@ -73,8 +73,8 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   // Company name and contact
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(29, 53, 87); // #1D3557
-  doc.text('AUTOMATIX IA', margin + 30, yPos + 10);
+  doc.setTextColor(29, 53, 87);
+  doc.text('ARQENTA', margin + 30, yPos + 10);
   
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
@@ -303,12 +303,12 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   doc.setTextColor(133, 100, 4);
   doc.text('⚠️ Advertencia: Este documento no sustituye la asesoría profesional de un abogado.', margin + 8, yPos + 32);
 
-  // Automatix branding
+  // ARQENTA branding
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text('AUTOMATIX IA | Tel: 7292564174', margin + 4, yPos + 42);
-  doc.text('Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial', pageWidth - margin - 4, yPos + 42, { align: 'right' });
+  doc.text('ARQENTA', margin + 4, yPos + 42);
+  doc.text('Arquitectura Digital e IA Aplicada', pageWidth - margin - 4, yPos + 42, { align: 'right' });
 
   // Page footer text
   const totalPages = doc.getNumberOfPages();

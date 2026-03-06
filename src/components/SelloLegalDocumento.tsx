@@ -1,4 +1,4 @@
-import automatixLogo from "@/assets/automatix-logo.png";
+import arqentaLogo from "@/assets/arqenta-logo.png";
 
 const fuentesAplicables = [
   "Código Civil Federal y códigos locales",
@@ -15,13 +15,12 @@ export function SelloLegalDocumento() {
     <div className="border-t border-border mt-8 pt-6">
       <div className="bg-muted/30 rounded-lg p-6">
         <div className="flex items-start gap-4 mb-4">
-          <img src={automatixLogo} alt="Automatix IA" className="h-12 w-auto" />
+          <img src={arqentaLogo} alt="ARQENTA" className="h-12 w-auto" />
           <div>
-            <h4 className="font-semibold text-foreground text-sm">AUTOMATIX IA</h4>
+            <h4 className="font-semibold text-foreground text-sm">ARQENTA</h4>
             <p className="text-xs text-muted-foreground">
-              Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
+              Arquitectura Digital e IA Aplicada
             </p>
-            <p className="text-xs text-muted-foreground">Tel: 7292564174</p>
           </div>
         </div>
 

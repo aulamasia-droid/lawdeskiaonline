@@ -496,7 +496,7 @@ Cédula Profesional: [Número]
 ═══════════════════════════════════════════════════════════════
 SELLO LEGAL DE VALIDEZ
 Este documento ha sido generado con respaldo jurídico conforme a legislación mexicana vigente.
-AUTOMATIX IA | Tel: 7292564174
+ARQENTA | Arquitectura Digital e IA Aplicada
 Nota: Este documento no sustituye la asesoría profesional de un abogado.
 ═══════════════════════════════════════════════════════════════`;
   }
@@ -608,9 +608,8 @@ SELLO LEGAL DE VALIDEZ
 
 Este documento ha sido generado con respaldo jurídico conforme a legislación mexicana vigente y buenas prácticas de argumentación legal.
 
-AUTOMATIX IA
-Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
-Tel: 7292564174
+ARQENTA
+Arquitectura Digital e IA Aplicada
 
 Advertencia: Este documento no sustituye la asesoría profesional de un abogado.
 ═══════════════════════════════════════════════════════════════`;
@@ -622,9 +621,8 @@ INFORME JURÍDICO
 CONFIDENCIAL
 ═══════════════════════════════════════════════════════════════
 
-AUTOMATIX IA
-Diseño y Desarrollo de Productos y Servicios con IA
-Tel: 7292564174
+ARQENTA
+Arquitectura Digital e IA Aplicada
 
 ───────────────────────────────────────────────────────────────
 DATOS GENERALES
@@ -751,9 +749,8 @@ SELLO LEGAL DE VALIDEZ
 
 Este informe jurídico ha sido generado con respaldo conforme a la legislación mexicana vigente y las mejores prácticas de argumentación legal.
 
-⚖️ AUTOMATIX IA
-Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
-📞 7292564174
+⚖️ ARQENTA
+Arquitectura Digital e IA Aplicada
 
 FUENTES LEGALES APLICADAS:
 • Código Civil Federal

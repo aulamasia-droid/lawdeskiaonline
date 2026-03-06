@@ -6,7 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { MessageCircle, BookOpen, ArrowRight, Check } from "lucide-react";
-import automatixLogo from "@/assets/automatix-logo.png";
+import arqentaLogo from "@/assets/arqenta-logo.png";
 
 const especialidades = [
   { emoji: "🔥", nombre: "Derecho Civil", descripcion: "Contratos, arrendamientos, daños, responsabilidad civil." },
@@ -88,7 +88,7 @@ export default function Onboarding() {
       <header className="border-b border-border bg-card px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={automatixLogo} alt="Automatix" className="h-8 w-auto" />
+            <img src={arqentaLogo} alt="ARQENTA" className="h-8 w-auto" />
             <span className="text-lg font-semibold text-foreground">LawDesk AI</span>
           </div>
           <div className="flex items-center gap-2">

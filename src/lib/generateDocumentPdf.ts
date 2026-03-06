@@ -1,5 +1,5 @@
 import jsPDF from "jspdf";
-import automatixLogo from "@/assets/automatix-logo.png";
+import arqentaLogo from "@/assets/arqenta-logo.png";
 
 interface DocumentPdfParams {
   content: string;
@@ -55,17 +55,16 @@ export const generateDocumentPdf = async ({
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = reject;
-      img.src = automatixLogo;
+      img.src = arqentaLogo;
     });
     doc.addImage(img, "PNG", margin, yPos, 30, 15);
     
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
-    doc.text("AUTOMATIX IA", margin + 35, yPos + 6);
+    doc.text("ARQENTA", margin + 35, yPos + 6);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
-    doc.text("Diseño y Desarrollo de Productos con IA", margin + 35, yPos + 10);
-    doc.text("Tel: 7292564174", margin + 35, yPos + 14);
+    doc.text("Arquitectura Digital e IA Aplicada", margin + 35, yPos + 10);
     
     // Date on the right
     doc.setFontSize(9);
@@ -239,13 +238,13 @@ export const generateDocumentPdf = async ({
   doc.setFont("helvetica", "normal");
   doc.setFontSize(7);
   doc.text(
-    "Este documento fue generado por AUTOMATIX IA conforme a legislación mexicana vigente.",
+    "Este documento fue generado por ARQENTA conforme a legislación mexicana vigente.",
     pageWidth / 2,
     footerY + 12,
     { align: "center" }
   );
   doc.text(
-    "No sustituye la asesoría profesional de un abogado. Tel: 7292564174",
+    "No sustituye la asesoría profesional de un abogado.",
     pageWidth / 2,
     footerY + 16,
     { align: "center" }
