@@ -608,9 +608,8 @@ SELLO LEGAL DE VALIDEZ
 
 Este documento ha sido generado con respaldo jurídico conforme a legislación mexicana vigente y buenas prácticas de argumentación legal.
 
-AUTOMATIX IA
-Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
-Tel: 7292564174
+ARQENTA
+Arquitectura Digital e IA Aplicada
 
 Advertencia: Este documento no sustituye la asesoría profesional de un abogado.
 ═══════════════════════════════════════════════════════════════`;
