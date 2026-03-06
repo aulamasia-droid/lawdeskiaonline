@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import automatixLogo from '@/assets/automatix-logo.png';
+import arqentaLogo from '@/assets/arqenta-logo.png';
 
 interface LegalSource {
   type: 'articulo' | 'jurisprudencia' | 'doctrina';
