@@ -55,17 +55,16 @@ export const generateDocumentPdf = async ({
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = reject;
-      img.src = automatixLogo;
+      img.src = arqentaLogo;
     });
     doc.addImage(img, "PNG", margin, yPos, 30, 15);
     
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
-    doc.text("AUTOMATIX IA", margin + 35, yPos + 6);
+    doc.text("ARQENTA", margin + 35, yPos + 6);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
-    doc.text("Diseño y Desarrollo de Productos con IA", margin + 35, yPos + 10);
-    doc.text("Tel: 7292564174", margin + 35, yPos + 14);
+    doc.text("Arquitectura Digital e IA Aplicada", margin + 35, yPos + 10);
     
     // Date on the right
     doc.setFontSize(9);
