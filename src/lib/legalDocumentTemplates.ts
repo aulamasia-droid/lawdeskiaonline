@@ -749,9 +749,8 @@ SELLO LEGAL DE VALIDEZ
 
 Este informe jurídico ha sido generado con respaldo conforme a la legislación mexicana vigente y las mejores prácticas de argumentación legal.
 
-⚖️ AUTOMATIX IA
-Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial
-📞 7292564174
+⚖️ ARQENTA
+Arquitectura Digital e IA Aplicada
 
 FUENTES LEGALES APLICADAS:
 • Código Civil Federal

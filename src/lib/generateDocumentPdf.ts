@@ -238,13 +238,13 @@ export const generateDocumentPdf = async ({
   doc.setFont("helvetica", "normal");
   doc.setFontSize(7);
   doc.text(
-    "Este documento fue generado por AUTOMATIX IA conforme a legislación mexicana vigente.",
+    "Este documento fue generado por ARQENTA conforme a legislación mexicana vigente.",
     pageWidth / 2,
     footerY + 12,
     { align: "center" }
   );
   doc.text(
-    "No sustituye la asesoría profesional de un abogado. Tel: 7292564174",
+    "No sustituye la asesoría profesional de un abogado.",
     pageWidth / 2,
     footerY + 16,
     { align: "center" }

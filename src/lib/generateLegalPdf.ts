@@ -303,12 +303,12 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   doc.setTextColor(133, 100, 4);
   doc.text('⚠️ Advertencia: Este documento no sustituye la asesoría profesional de un abogado.', margin + 8, yPos + 32);
 
-  // Automatix branding
+  // ARQENTA branding
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(100, 100, 100);
-  doc.text('AUTOMATIX IA | Tel: 7292564174', margin + 4, yPos + 42);
-  doc.text('Diseño y Desarrollo de Productos y Servicios con Inteligencia Artificial', pageWidth - margin - 4, yPos + 42, { align: 'right' });
+  doc.text('ARQENTA', margin + 4, yPos + 42);
+  doc.text('Arquitectura Digital e IA Aplicada', pageWidth - margin - 4, yPos + 42, { align: 'right' });
 
   // Page footer text
   const totalPages = doc.getNumberOfPages();
