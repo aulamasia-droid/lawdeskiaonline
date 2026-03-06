@@ -64,7 +64,7 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
         resolve();
       };
       logoImg.onerror = () => resolve();
-      logoImg.src = automatixLogo;
+      logoImg.src = arqentaLogo;
     });
   } catch {
     // Logo failed to load, continue without it
@@ -73,8 +73,8 @@ export async function generateLegalPdf(data: PdfData): Promise<void> {
   // Company name and contact
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(29, 53, 87); // #1D3557
-  doc.text('AUTOMATIX IA', margin + 30, yPos + 10);
+  doc.setTextColor(29, 53, 87);
+  doc.text('ARQENTA', margin + 30, yPos + 10);
   
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
